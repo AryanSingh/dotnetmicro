@@ -1,7 +1,4 @@
 
-using BuildingBlocks.CQRS;
-using CatalogApi.Models;
-
 namespace CatalogApi.Products.CreateProduct;
 
 public record CreateProductCommand(
@@ -16,11 +13,23 @@ public record CreateProductResult(
     Guid Id
 );
 
-
-internal class CreateProductCommandHandler:ICommandHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
-    public Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+    public CreateProductCommandValidator()
     {
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is Required");
+        RuleFor(x => x.Category).NotEmpty().WithMessage("Category is Required");
+        RuleFor(x => x.ImageFile).NotEmpty().WithMessage("ImageFile is Required");
+        RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be greater than zero");
+    }
+}
+
+
+internal class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger):ICommandHandler<CreateProductCommand, CreateProductResult>
+{
+    public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("CreateProductCommandHandler called with @command", command);
         var product = new Product
         {
             Name = command.Name,
@@ -29,7 +38,9 @@ internal class CreateProductCommandHandler:ICommandHandler<CreateProductCommand,
             ImageFile = command.ImageFile,
             Price = command.Price
         };
-        return Task.FromResult(new CreateProductResult(Guid.NewGuid()));
+        session.Store(product);
+        await session.SaveChangesAsync(cancellationToken);
+        return new CreateProductResult(product.Id);
     }
     
 }
