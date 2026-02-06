@@ -29,7 +29,6 @@ internal class CreateProductCommandHandler(IDocumentSession session, ILogger<Cre
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CreateProductCommandHandler called with @command", command);
         var product = new Product
         {
             Name = command.Name,
