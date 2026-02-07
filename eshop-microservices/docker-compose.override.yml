@@ -1,12 +1,20 @@
 services:
-    catalogdb:
-      container_name: catalogDb
-      environment:
-        - POSTGRES_DB=catalogdb
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-      restart: always
-      ports:
-        - "5433:5432"
-      volumes:
-        - postgres_catalog:/var/lib/postgresql/data
+  catalogdb:
+    container_name: catalogDb
+    environment:
+      - POSTGRES_DB=catalogdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data
+
+  catalogApi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=catalogdb;User Id=postgres;Password=postgres;
+    ports:
+      - "8080:8080"
+      - "8081:8081"

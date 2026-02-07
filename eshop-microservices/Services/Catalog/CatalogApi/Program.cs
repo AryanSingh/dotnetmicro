@@ -1,4 +1,7 @@
 
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //add services to the container
@@ -12,6 +15,8 @@ builder.Services.AddMediatR(config =>
 builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddCarter();
+
+
 
 builder.Services.AddMarten(opts =>
 {
@@ -27,14 +32,20 @@ if(builder.Environment.IsDevelopment())
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 
-
+builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 var app = builder.Build();
 
 Console.WriteLine($"Registering Carter modules from assembly: {assembly.FullName}");
+
+
 app.MapCarter();
 app.UseExceptionHandler(options =>
 {
 
+});
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 Console.WriteLine("Carter modules registered");
 
