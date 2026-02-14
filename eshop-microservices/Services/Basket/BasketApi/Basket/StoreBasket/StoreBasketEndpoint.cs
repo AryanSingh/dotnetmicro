@@ -8,10 +8,10 @@ public class StoreBasketEndpoint: ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/basket", (StoreBasketRequest request, ISender sender) =>
+        app.MapPost("/basket", async (StoreBasketRequest request, ISender sender) =>
         {
             var command = request.Adapt<StoreBasketCommand>();
-            var result = sender.Send(command);
+            var result = await sender.Send(command);
             var response = result.Adapt<StoreBasketResponse>();
             return Results.Created($"/basket/{response.UserName}", response);
         })

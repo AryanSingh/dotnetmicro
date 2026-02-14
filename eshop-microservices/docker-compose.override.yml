@@ -10,6 +10,25 @@ services:
       - "5433:5432"
     volumes:
       - postgres_catalog:/var/lib/postgresql/data
+        
+  basketdb:
+    container_name: basketdb
+    environment:
+      - POSTGRES_DB=basketdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_basket:/var/lib/postgresql/data
+        
+  distributedCache:
+    container_name: distributedCache
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
 
   catalog.api:
     environment:
@@ -27,3 +46,23 @@ services:
     volumes:
       - ~/.microsoft/usersecrets:/home/app/.microsoft/usersecrets:ro
       - ~/.aspnet/https:/home/app/.aspnet/https:ro
+  
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/basket.api.pfx
+      - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=basketdb;User Id=postgres;Password=postgres;
+      - ConnectionStrings__Redis=distributedcache:6379
+    depends_on:
+      - basketdb
+      - distributedCache
+    ports:
+      - "6001:8080"
+      - "6061:8081"
+    volumes:
+      - ~/.microsoft/usersecrets:/home/app/.microsoft/usersecrets:ro
+      - ~/.aspnet/https:/home/app/.aspnet/https:ro
+  
