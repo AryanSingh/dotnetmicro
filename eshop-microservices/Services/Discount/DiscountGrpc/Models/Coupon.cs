@@ -1,4 +1,4 @@
-namespace DiscountApi.Models;
+namespace DiscountGrpc.Models;
 
 public class Coupon
 {

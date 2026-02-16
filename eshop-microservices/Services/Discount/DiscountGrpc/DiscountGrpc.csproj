@@ -5,11 +5,17 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>DiscountApi</RootNamespace>
+        <RootNamespace>DiscountGrpc</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.64.0"/>
+        <PackageReference Include="Mapster" Version="9.0.0-pre01" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.13">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
