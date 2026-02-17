@@ -1,3 +1,4 @@
+using DiscountGrpc;
 using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,11 +27,30 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis")!;
 });
 
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+
+// builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+// {
+//     options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+// })
+// .ConfigurePrimaryHttpMessageHandler(() =>
+// {
+//     var handler = new HttpClientHandler
+//     {
+//         ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+//     };
+//     return handler;
+// });
 
 // Add services to the container
 var app = builder.Build();
