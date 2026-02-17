@@ -17,6 +17,7 @@ public class StoreBasketCommandHandler(IBasketRepository repository): ICommandHa
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
+        // communicate with grpc 
         await repository.StoreBasket(command.Cart, cancellationToken);
         return new StoreBasketResult(command.Cart.UserName);
     }
