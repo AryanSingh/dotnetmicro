@@ -50,7 +50,7 @@ public class Order: Aggregate<OrderId>
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
         var orderItem = new OrderItem(Id, productId, quantity, price);
         _orderItems.Add(orderItem);
-        AddDomainEvent(new OrderItemAddedEvent(this, orderItem));
+        // AddDomainEvent(new OrderItemAddedEvent(this, orderItem));
     }
     
      public void Remove(OrderItemId orderItemId)
@@ -59,7 +59,7 @@ public class Order: Aggregate<OrderId>
         if (orderItem != null)
         {
             _orderItems.Remove(orderItem);
-            AddDomainEvent(new OrderItemRemovedEvent(this, orderItem));
+            // AddDomainEvent(new OrderItemRemovedEvent(this, orderItem));
         }
     }
     

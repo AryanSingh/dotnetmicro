@@ -6,7 +6,7 @@ public record OrderName
     public string Value { get; }
 
 
-    private OrderName(string name) => Value = name;
+    private OrderName(string value) => Value = value;
 
     public static OrderName Of(string value)
     {
