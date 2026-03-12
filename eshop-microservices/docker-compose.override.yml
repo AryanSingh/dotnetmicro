@@ -42,6 +42,15 @@ services:
     ports:
       - "6379:6379"
 
+  orderdb:
+    container_name: orderdb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Hello@123
+    restart: always
+    ports:
+      - "1433:1433"
+
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -91,6 +100,23 @@ services:
     ports:
       - "6002:8080"
       - "6062:8081"
+    volumes:
+      - ~/.microsoft/usersecrets:/home/app/.microsoft/usersecrets:ro
+      - ~/.aspnet/https:/home/app/.aspnet/https:ro
+
+  ordering.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/ordering.api.pfx
+      - ConnectionStrings__DataBase=Server=orderdb;Database=OrderDb;User Id=sa;Password=Hello@123;Encrypt=False;TrustServerCertificate=True;
+    depends_on:
+      - orderdb
+    ports:
+      - "6003:8080"
+      - "6063:8081"
     volumes:
       - ~/.microsoft/usersecrets:/home/app/.microsoft/usersecrets:ro
       - ~/.aspnet/https:/home/app/.aspnet/https:ro
