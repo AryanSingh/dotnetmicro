@@ -13,6 +13,11 @@ public class GetOrdersByNameHandler(IApplicationDbContext dbContext) : IQueryHan
             .Where(o => o.OrderName.Value.Contains(query.Name))
             .OrderBy(o => o.OrderName.Value)
             .ToListAsync(cancellationToken);
+
+
+        // await dbContext.Orders.Include(o => o.OrderItems).AsNoTracking()
+        //     .Where(o => o.OrderName.Value.Contains(query.Name))
+        //     .OrderBy(o => o.OrderName.Value).ToListAsync();
             
         return new GetOrdersByNameResult(orders.ToOrderDtoList());
     }

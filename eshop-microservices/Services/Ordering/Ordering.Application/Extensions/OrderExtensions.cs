@@ -5,9 +5,16 @@ namespace Ordering.Application.Extensions;
 
 public static class OrderExtensions
 {
+   
+
     public static IEnumerable<OrderDto> ToOrderDtoList(this IEnumerable<Order> orders)
     {
-        return orders.Select(order => new OrderDto(
+        return orders.Select(order => order.ToOrderDto());
+    }
+
+    public static OrderDto ToOrderDto(this Order order)
+    {
+        return new OrderDto(
             Id: order.Id.Value,
             CustomerId: order.CustomerId.Value,
             OrderName: order.OrderName.Value,
@@ -42,6 +49,18 @@ public static class OrderExtensions
                 oi.ProductId.Value,
                 oi.Quantity,
                 oi.Price)).ToList()
-        ));
+        );
+    }
+
+   
+
+    public static Payment ToPayment(this PaymentDto paymentDto)
+    {
+        return Payment.Of(paymentDto.CardNumber, paymentDto.CardName, paymentDto.ExpirationDate, paymentDto.Cvv, paymentDto.PaymentMethod);
+    }
+
+    public static Address ToAddress(this AddressDto addressDto)
+    {
+        return Address.Of(addressDto.FirstName, addressDto.LastName, addressDto.EmailAddress, addressDto.AddressLine, addressDto.Country, addressDto.State, addressDto.ZipCode);
     }
 }
