@@ -35,9 +35,6 @@ public static class OrderExtensions
                 order.BillingAddress.State,
                 order.BillingAddress.ZipCode),
             Payment: new PaymentDto(
-                Guid.Empty,
-                order.Id.Value,
-                order.TotalPrice,
                 order.Payment.CardName,
                 order.Payment.CardNumber,
                 order.Payment.Expiration,
@@ -51,7 +48,6 @@ public static class OrderExtensions
                 oi.Price)).ToList()
         );
     }
-
    
 
     public static Payment ToPayment(this PaymentDto paymentDto)

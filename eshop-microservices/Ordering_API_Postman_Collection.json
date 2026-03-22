@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "Ordering API Tests",
+    "description": "Complete test collection for Ordering microservice API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GET - List All Orders (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5003/orders?PageIndex=0&PageSize=10",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["orders"],
+          "query": [
+            {
+              "key": "PageIndex",
+              "value": "0"
+            },
+            {
+              "key": "PageSize",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Retrieve all orders with pagination support. Returns paginated result with page metadata."
+      }
+    },
+    {
+      "name": "2. GET - Search Orders by Name",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5003/orders/by-name/O0001",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["orders", "by-name", "O0001"]
+        },
+        "description": "Search and filter orders by their name. Name is case-insensitive and supports partial matches."
+      }
+    },
+    {
+      "name": "3. GET - Orders by Customer",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5003/orders/by-customer/58c49479-ec65-4de2-86e7-033c546291aa",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["orders", "by-customer", "58c49479-ec65-4de2-86e7-033c546291aa"]
+        },
+        "description": "Get all orders for a specific customer by their customer ID."
+      }
+    },
+    {
+      "name": "4. POST - Create New Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Order\": {\n    \"Id\": \"00000000-0000-0000-0000-000000000000\",\n    \"CustomerId\": \"58c49479-ec65-4de2-86e7-033c546291aa\",\n    \"OrderName\": \"NewOrder-2026\",\n    \"ShippingAddress\": {\n      \"FirstName\": \"John\",\n      \"LastName\": \"Doe\",\n      \"EmailAddress\": \"john@example.com\",\n      \"AddressLine\": \"123 Main Street\",\n      \"Country\": \"USA\",\n      \"State\": \"NY\",\n      \"ZipCode\": \"10001\"\n    },\n    \"BillingAddress\": {\n      \"FirstName\": \"John\",\n      \"LastName\": \"Doe\",\n      \"EmailAddress\": \"john@example.com\",\n      \"AddressLine\": \"123 Main Street\",\n      \"Country\": \"USA\",\n      \"State\": \"NY\",\n      \"ZipCode\": \"10001\"\n    },\n    \"Payment\": {\n      \"Id\": \"00000000-0000-0000-0000-000000000000\",\n      \"OrderId\": \"00000000-0000-0000-0000-000000000000\",\n      \"Amount\": 50.00,\n      \"CardName\": \"John Doe\",\n      \"CardNumber\": \"4532123456789010\",\n      \"ExpirationDate\": \"2027-12-31T00:00:00\",\n      \"Cvv\": \"123\",\n      \"PaymentMethod\": 1\n    },\n    \"Status\": 0,\n    \"OrderItems\": [\n      {\n        \"OrderId\": \"00000000-0000-0000-0000-000000000000\",\n        \"ProductId\": \"5334c996-8457-4cf0-815c-ed2b77c4ff61\",\n        \"Quantity\": 2,\n        \"Price\": 10.00\n      },\n      {\n        \"OrderId\": \"00000000-0000-0000-0000-000000000000\",\n        \"ProductId\": \"c67d6323-e8b1-4bdf-9a75-b0d0d2e7e914\",\n        \"Quantity\": 1,\n        \"Price\": 20.00\n      }\n    ]\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5003/orders",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["orders"]
+        },
+        "description": "Create a new order with customer info, shipping/billing addresses, payment details, and order items. Returns 201 Created with the new order ID."
+      }
+    },
+    {
+      "name": "5. PUT - Update Existing Order",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Order\": {\n    \"Id\": \"d7fb44cf-1abc-4277-bfdd-eb6d4b2e8fb4\",\n    \"CustomerId\": \"58c49479-ec65-4de2-86e7-033c546291aa\",\n    \"OrderName\": \"O0001-Updated\",\n    \"ShippingAddress\": {\n      \"FirstName\": \"Jane\",\n      \"LastName\": \"Smith\",\n      \"EmailAddress\": \"jane@example.com\",\n      \"AddressLine\": \"456 Oak Avenue\",\n      \"Country\": \"USA\",\n      \"State\": \"CA\",\n      \"ZipCode\": \"90001\"\n    },\n    \"BillingAddress\": {\n      \"FirstName\": \"Jane\",\n      \"LastName\": \"Smith\",\n      \"EmailAddress\": \"jane@example.com\",\n      \"AddressLine\": \"456 Oak Avenue\",\n      \"Country\": \"USA\",\n      \"State\": \"CA\",\n      \"ZipCode\": \"90001\"\n    },\n    \"Payment\": {\n      \"Id\": \"00000000-0000-0000-0000-000000000000\",\n      \"OrderId\": \"d7fb44cf-1abc-4277-bfdd-eb6d4b2e8fb4\",\n      \"Amount\": 40.00,\n      \"CardName\": \"Jane Smith\",\n      \"CardNumber\": \"4532123456789010\",\n      \"ExpirationDate\": \"2027-12-31T00:00:00\",\n      \"Cvv\": \"123\",\n      \"PaymentMethod\": 1\n    },\n    \"Status\": 1,\n    \"OrderItems\": [\n      {\n        \"OrderId\": \"d7fb44cf-1abc-4277-bfdd-eb6d4b2e8fb4\",\n        \"ProductId\": \"5334c996-8457-4cf0-815c-ed2b77c4ff61\",\n        \"Quantity\": 3,\n        \"Price\": 10.00\n      }\n    ]\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5003/orders",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["orders"]
+        },
+        "description": "Update an existing order. The order must exist or a 404 error will be returned. Returns 200 OK with success status."
+      }
+    },
+    {
+      "name": "6. DELETE - Delete Order",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5003/orders/d7fb44cf-1abc-4277-bfdd-eb6d4b2e8fb4",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["orders", "d7fb44cf-1abc-4277-bfdd-eb6d4b2e8fb4"]
+        },
+        "description": "Delete an order by its ID. The order must exist or a 404 error will be returned. Returns 204 No Content on success."
+      }
+    }
+  ]
+}
+

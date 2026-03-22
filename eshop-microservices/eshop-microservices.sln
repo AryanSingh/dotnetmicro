@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Application", "Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Infrastructure", "Services\Ordering\Ordering.Infrastructure\Ordering.Infrastructure.csproj", "{6E8B121C-B706-4D0E-A02D-E19C9D354EAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Messaging", "BuildingBlocks\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj", "{7EAE3978-9825-4F86-A18E-CE5532F817A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,5 +85,9 @@ Global
 		{6E8B121C-B706-4D0E-A02D-E19C9D354EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E8B121C-B706-4D0E-A02D-E19C9D354EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E8B121C-B706-4D0E-A02D-E19C9D354EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EAE3978-9825-4F86-A18E-CE5532F817A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EAE3978-9825-4F86-A18E-CE5532F817A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EAE3978-9825-4F86-A18E-CE5532F817A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EAE3978-9825-4F86-A18E-CE5532F817A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

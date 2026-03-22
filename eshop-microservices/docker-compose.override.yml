@@ -111,7 +111,7 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/ordering.api.pfx
-      - ConnectionStrings__DataBase=Server=orderdb;Database=OrderDb;User Id=sa;Password=Hello@123;Encrypt=False;TrustServerCertificate=True;
+      - ConnectionStrings__Database=Server=orderdb;Database=OrderDb;User Id=sa;Password=Hello@123;Encrypt=False;TrustServerCertificate=True;
     depends_on:
       - orderdb
     ports:
